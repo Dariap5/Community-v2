@@ -63,7 +63,7 @@ const Hero = () => {
   const totalCount = 40;
   
   return (
-    <section ref={containerRef} className="relative min-h-[95vh] flex flex-col justify-center pt-20 pb-32 px-6 md:px-12 overflow-hidden">
+    <section ref={containerRef} className="relative min-h-[100svh] md:min-h-[95vh] flex flex-col justify-center pt-16 pb-16 md:pt-20 md:pb-32 px-5 md:px-12 overflow-hidden">
       {/* Subtle Grain Background */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }}></div>
       <div className="absolute inset-0 bg-radial-gradient from-primary/5 to-transparent opacity-50" />
@@ -74,7 +74,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: prefersReducedMotion ? 0 : -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mb-8 inline-flex items-center gap-3 text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground"
+          className="mb-5 md:mb-8 inline-flex items-center gap-3 text-[10px] md:text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground"
         >
           <span className="relative flex h-1.5 w-1.5">
             {!prefersReducedMotion && (
@@ -85,14 +85,14 @@ const Hero = () => {
           Telegram-комьюнити · набор открыт
         </motion.div>
 
-        {/* Animated Counter */}
-        <div className="mb-12 flex flex-col gap-4">
-          <div className="flex items-end gap-4 text-sm font-medium text-muted-foreground/60 select-none font-mono">
+        {/* Animated Counter — compact on mobile */}
+        <div className="mb-7 md:mb-12 flex flex-col gap-3 md:gap-4">
+          <div className="flex items-end gap-3 md:gap-4 text-xs md:text-sm font-medium text-muted-foreground/60 select-none font-mono">
             <div className="flex flex-col items-start">
               <span className="text-foreground/80">04 / 40</span>
-              <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60 mt-0.5">заняли</span>
+              <span className="text-[9px] md:text-[10px] uppercase tracking-widest text-muted-foreground/60 mt-0.5">заняли</span>
             </div>
-            <div className="w-12 h-px bg-border relative overflow-hidden mb-3">
+            <div className="w-8 md:w-12 h-px bg-border relative overflow-hidden mb-3">
               <motion.div
                 initial={{ x: "-100%" }}
                 animate={{ x: "100%" }}
@@ -102,64 +102,66 @@ const Hero = () => {
             </div>
             <div className="flex flex-col items-start">
               <span className="text-primary">36 / 40</span>
-              <span className="text-[10px] uppercase tracking-widest text-primary/70 mt-0.5">свободно</span>
+              <span className="text-[9px] md:text-[10px] uppercase tracking-widest text-primary/70 mt-0.5">свободно</span>
             </div>
           </div>
-          <div className="flex gap-1">
+          <div className="flex gap-[3px] md:gap-1">
             {Array.from({ length: totalCount }).map((_, i) => (
               <motion.div
                 key={i}
                 initial={{ scaleY: 0, opacity: 0 }}
                 animate={{ scaleY: 1, opacity: i < filledCount ? 1 : 0.2 }}
                 transition={{ delay: 0.5 + i * 0.02, duration: 0.4, ease: "easeOut" }}
-                className={`w-1.5 h-4 md:h-5 rounded-full origin-bottom ${i < filledCount ? 'bg-primary' : 'bg-border'}`}
+                className={`flex-1 max-w-[6px] h-3 md:h-5 rounded-full origin-bottom ${i < filledCount ? 'bg-primary' : 'bg-border'}`}
               />
             ))}
           </div>
         </div>
-        
-        {/* Staggered Headline */}
-        <h1 className="text-4xl md:text-6xl lg:text-[5rem] leading-[1.05] font-serif text-foreground max-w-4xl mb-8 tracking-tight flex flex-wrap">
+
+        {/* Headline — natural inline wrapping for clean mobile, blur-in animation */}
+        <h1 className="text-[1.75rem] sm:text-4xl md:text-6xl lg:text-[5rem] leading-[1.12] md:leading-[1.05] font-serif text-foreground max-w-4xl mb-5 md:mb-8 tracking-tight">
           {"Закрытое комьюнити, в которое сейчас набираем первых 40 человек".split(" ").map((word, i) => (
-            <motion.span
-              key={i}
-              initial={{ opacity: 0, filter: prefersReducedMotion ? "none" : "blur(8px)", y: prefersReducedMotion ? 0 : 20 }}
-              animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-              transition={{ delay: 0.2 + i * 0.05, duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
-              className="inline-block mr-3 md:mr-4 lg:mr-5 mb-2"
-            >
-              {word}
-            </motion.span>
+            <React.Fragment key={i}>
+              <motion.span
+                initial={{ opacity: 0, filter: prefersReducedMotion ? "none" : "blur(8px)", y: prefersReducedMotion ? 0 : 14 }}
+                animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                transition={{ delay: 0.2 + i * 0.05, duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+                className="inline"
+              >
+                {word}
+              </motion.span>
+              {i < "Закрытое комьюнити, в которое сейчас набираем первых 40 человек".split(" ").length - 1 && " "}
+            </React.Fragment>
           ))}
         </h1>
-        
-        <motion.p 
+
+        <motion.p
           initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 0.8 }}
-          className="text-xl md:text-2xl text-muted-foreground max-w-2xl leading-relaxed mb-12 font-sans font-light"
+          className="text-[15px] md:text-2xl text-muted-foreground max-w-2xl leading-relaxed mb-6 md:mb-12 font-sans font-light"
         >
-          Если ты хочешь расти быстрее и не в одиночку — это место, где ты будешь двигаться вместе с другими
+          Хочешь расти быстрее и не в одиночку — это место, где ты будешь двигаться вместе с другими.
         </motion.p>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.4, duration: 0.8 }}
-          className="flex flex-col items-start gap-4"
+          className="flex flex-col items-start gap-3 md:gap-4"
         >
-          <JoinButton />
-          <p className="text-sm text-muted-foreground tracking-wide">
+          <JoinButton className="w-full sm:w-auto" />
+          <p className="text-xs md:text-sm text-muted-foreground tracking-wide">
             <span className="text-foreground/80 font-medium">4 из 40 мест</span> заняты · набор закроется автоматически
           </p>
         </motion.div>
 
         {/* Three micro-markers — set context in 1 sec */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.7, duration: 0.8 }}
-          className="mt-14 flex flex-wrap gap-x-8 gap-y-3 text-sm font-mono uppercase tracking-wider text-muted-foreground"
+          className="mt-8 md:mt-14 flex flex-wrap gap-x-5 md:gap-x-8 gap-y-2 md:gap-y-3 text-[11px] md:text-sm font-mono uppercase tracking-wider text-muted-foreground"
         >
           {["Buddy 1-на-1", "Weekly созвоны", "Карьера · Бизнес · AI"].map((m, i) => (
             <div key={m} className="flex items-center gap-2">
@@ -179,7 +181,7 @@ const WhySmall = () => {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section ref={ref} className="py-32 px-6 md:px-12 bg-white/40 border-y border-border/40 overflow-hidden">
+    <section ref={ref} className="py-20 md:py-32 px-5 md:px-12 bg-white/40 border-y border-border/40 overflow-hidden">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
         <div className="order-2 lg:order-1 w-full">
           <div className="relative h-64 md:h-80 w-full flex items-center justify-center bg-background rounded-3xl border border-border/50 overflow-hidden">
@@ -282,13 +284,13 @@ const Pain = () => {
   ];
 
   return (
-    <section ref={sectionRef} className="py-32 md:py-48 px-6 md:px-12 max-w-4xl mx-auto">
+    <section ref={sectionRef} className="py-20 md:py-40 px-5 md:px-12 max-w-4xl mx-auto">
       <FadeIn>
-        <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-12">Знакомо?</h2>
+        <h2 className="text-xs md:text-sm font-semibold tracking-widest text-primary uppercase mb-8 md:mb-12">Знакомо?</h2>
       </FadeIn>
 
       {/* Stack of "thoughts" — each one fades in with a slight blur, like a passing reflection */}
-      <div className="space-y-6 md:space-y-7 mb-20 md:mb-28">
+      <div className="space-y-5 md:space-y-7 mb-14 md:mb-28">
         {thoughts.map((t, i) => (
           <motion.p
             key={i}
@@ -303,9 +305,9 @@ const Pain = () => {
               filter: "blur(0px)",
             } : {}}
             transition={{ delay: 0.2 + i * 0.35, duration: 0.7, ease: "easeOut" }}
-            className="text-xl md:text-2xl lg:text-3xl font-serif text-muted-foreground/80 leading-relaxed flex items-start gap-4"
+            className="text-lg md:text-2xl lg:text-3xl font-serif text-muted-foreground/80 leading-relaxed flex items-start gap-3 md:gap-4"
           >
-            <span className="font-mono text-xs text-primary/50 mt-3 shrink-0 w-6">0{i + 1}</span>
+            <span className="font-mono text-[10px] md:text-xs text-primary/50 mt-2 md:mt-3 shrink-0 w-5 md:w-6">0{i + 1}</span>
             <span>«{t}»</span>
           </motion.p>
         ))}
@@ -317,7 +319,7 @@ const Pain = () => {
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ delay: 0.2 + thoughts.length * 0.35 + 0.3, duration: 0.8, ease: "easeOut" }}
       >
-        <p className="text-3xl md:text-5xl lg:text-6xl font-serif text-foreground leading-tight">
+        <p className="text-[1.75rem] sm:text-3xl md:text-5xl lg:text-6xl font-serif text-foreground leading-[1.15]">
           Не потому что лень.{" "}
           <span className="text-primary">А потому что один.</span>
         </p>
@@ -339,17 +341,17 @@ const Reframe = () => {
   const y2 = useTransform(scrollYProgress, [0.4, 0.6], prefersReducedMotion ? [0, 0] : [20, 0]);
 
   return (
-    <section ref={ref} className="relative py-40 px-6 md:px-12 bg-background min-h-[80vh] flex flex-col justify-center">
-      <div className="max-w-4xl mx-auto text-center relative h-[300px] flex flex-col justify-center">
-        <motion.p 
+    <section ref={ref} className="relative py-24 md:py-40 px-5 md:px-12 bg-background min-h-[55vh] md:min-h-[80vh] flex flex-col justify-center">
+      <div className="max-w-4xl mx-auto text-center relative h-[200px] md:h-[300px] flex flex-col justify-center w-full">
+        <motion.p
           style={{ opacity: opacity1 }}
-          className="text-3xl md:text-5xl font-serif text-muted-foreground absolute inset-x-0 top-1/4 -translate-y-1/2"
+          className="text-2xl sm:text-3xl md:text-5xl font-serif text-muted-foreground absolute inset-x-0 top-1/4 -translate-y-1/2"
         >
           Проблема не в знаниях.
         </motion.p>
-        <motion.p 
+        <motion.p
           style={{ opacity: opacity2, y: y2 }}
-          className="text-4xl md:text-6xl lg:text-7xl font-serif text-primary absolute inset-x-0 top-1/2 -translate-y-1/2"
+          className="text-[1.75rem] sm:text-4xl md:text-6xl lg:text-7xl font-serif text-primary absolute inset-x-0 top-1/2 -translate-y-1/2 leading-[1.1]"
         >
           А в отсутствии среды.
         </motion.p>
@@ -360,11 +362,11 @@ const Reframe = () => {
 
 const Solution = () => {
   return (
-    <section className="py-32 px-6 md:px-12 bg-primary/5 border-y border-primary/10">
+    <section className="py-20 md:py-32 px-5 md:px-12 bg-primary/5 border-y border-primary/10">
       <div className="max-w-5xl mx-auto">
         <FadeIn>
-          <div className="flex flex-col md:flex-row gap-12 md:gap-24 items-start md:items-center">
-            <div className="flex-1 space-y-6 text-2xl md:text-4xl font-serif text-muted-foreground/50">
+          <div className="flex flex-col md:flex-row gap-8 md:gap-24 items-start md:items-center">
+            <div className="flex-1 space-y-4 md:space-y-6 text-xl sm:text-2xl md:text-4xl font-serif text-muted-foreground/50">
               <p className="relative inline-block">
                 Это не курс
                 <motion.span 
@@ -417,9 +419,9 @@ const HowItWorks = () => {
   const stepDelay = 0.45;
 
   return (
-    <section ref={sectionRef} className="py-32 px-6 md:px-12 max-w-5xl mx-auto">
+    <section ref={sectionRef} className="py-20 md:py-32 px-5 md:px-12 max-w-5xl mx-auto">
       <FadeIn>
-        <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-16">Как это работает</h2>
+        <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-10 md:mb-16">Как это работает</h2>
       </FadeIn>
       
       <div className="relative">
@@ -510,10 +512,10 @@ const WhatsInside = () => {
   ];
 
   return (
-    <section className="py-32 px-6 md:px-12 bg-white/40 border-y border-border/40">
+    <section className="py-20 md:py-32 px-5 md:px-12 bg-white/40 border-y border-border/40">
       <div className="max-w-5xl mx-auto">
         <FadeIn>
-          <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-16 text-center md:text-left">Что внутри</h2>
+          <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-10 md:mb-16 text-center md:text-left">Что внутри</h2>
         </FadeIn>
 
         <div className="grid md:grid-cols-3 gap-4 mb-12">
@@ -629,9 +631,9 @@ const Foundation = () => {
   ];
 
   return (
-    <section className="py-32 px-6 md:px-12 max-w-6xl mx-auto">
+    <section className="py-20 md:py-32 px-5 md:px-12 max-w-6xl mx-auto">
       <FadeIn>
-        <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-16 text-center">Основа</h2>
+        <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-10 md:mb-16 text-center">Основа</h2>
       </FadeIn>
       
       <div className="grid md:grid-cols-3 gap-12 md:gap-8">
@@ -682,10 +684,10 @@ const WhoItsFor = () => {
   ];
 
   return (
-    <section className="py-32 px-6 md:px-12 bg-foreground text-background">
+    <section className="py-20 md:py-32 px-5 md:px-12 bg-foreground text-background">
       <div className="max-w-5xl mx-auto">
         <FadeIn>
-          <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-16">Для кого</h2>
+          <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-10 md:mb-16">Для кого</h2>
         </FadeIn>
 
         <div className="grid md:grid-cols-2 gap-12 md:gap-16">
@@ -797,21 +799,21 @@ const EarlyAccess = () => {
   }, [prefersReducedMotion]);
 
   return (
-    <section className="py-32 px-6 md:px-12 overflow-hidden">
-      <div className="max-w-5xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
-        <div className="flex-1 space-y-8">
+    <section className="py-20 md:py-32 px-5 md:px-12 overflow-hidden">
+      <div className="max-w-5xl mx-auto flex flex-col lg:flex-row gap-10 md:gap-16 items-center">
+        <div className="flex-1 space-y-6 md:space-y-8 w-full">
           <FadeIn>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-foreground leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-foreground leading-[1.1]">
               Сейчас открываем набор первых 40 человек.
             </h2>
           </FadeIn>
           <FadeIn delay={0.2}>
-            <p className="text-xl md:text-2xl text-muted-foreground font-light">
+            <p className="text-lg md:text-2xl text-muted-foreground font-light leading-relaxed">
               Дальше вход станет сложнее, дороже и с отбором.
             </p>
           </FadeIn>
           <FadeIn delay={0.35}>
-            <div className="flex items-center gap-3 text-sm font-mono uppercase tracking-wider text-muted-foreground">
+            <div className="flex items-center gap-3 text-xs md:text-sm font-mono uppercase tracking-wider text-muted-foreground">
               <span className="relative flex h-2 w-2">
                 {!prefersReducedMotion && (
                   <span className="absolute inline-flex h-full w-full rounded-full bg-primary/60 animate-ping" />
@@ -821,10 +823,15 @@ const EarlyAccess = () => {
               <span>набор открыт прямо сейчас</span>
             </div>
           </FadeIn>
+          <FadeIn delay={0.5}>
+            <div className="pt-2">
+              <JoinButton className="w-full sm:w-auto" />
+            </div>
+          </FadeIn>
         </div>
-        
+
         <div className="flex-1 w-full max-w-md">
-          <div className="grid grid-cols-8 gap-2 p-6 rounded-3xl border border-border bg-white/50 shadow-sm">
+          <div className="grid grid-cols-8 gap-1.5 md:gap-2 p-4 md:p-6 rounded-3xl border border-border bg-white/50 shadow-sm">
             {Array.from({ length: total }).map((_, i) => {
               const isFilled = i < baseFilled;
               const isPulse = pulseIndex === i;
@@ -866,10 +873,10 @@ const EarlyAccess = () => {
 
 const Pricing = () => {
   return (
-    <section className="py-32 px-6 md:px-12 bg-white/60 border-y border-border/40">
+    <section className="py-20 md:py-32 px-5 md:px-12 bg-white/60 border-y border-border/40">
       <div className="max-w-4xl mx-auto">
         <FadeIn>
-          <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-16 text-center">Тарифы</h2>
+          <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-10 md:mb-16 text-center">Тарифы</h2>
         </FadeIn>
         
         <div className="grid md:grid-cols-2 gap-8 items-stretch">
@@ -928,12 +935,12 @@ const Routine = () => {
   ];
 
   return (
-    <section className="py-32 px-6 md:px-12 max-w-6xl mx-auto">
+    <section className="py-20 md:py-32 px-5 md:px-12 max-w-6xl mx-auto">
       <FadeIn>
         <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-4 text-center md:text-left">Ритм недели</h2>
       </FadeIn>
       <FadeIn delay={0.1}>
-        <p className="text-3xl md:text-5xl font-serif text-foreground leading-tight mb-12 md:mb-16 max-w-3xl">
+        <p className="text-3xl md:text-5xl font-serif text-foreground leading-tight mb-12 md:mb-10 md:mb-16 max-w-3xl">
           Не курс, а <span className="text-primary">постоянная среда</span> — встроенная в твою неделю.
         </p>
       </FadeIn>
@@ -1014,13 +1021,13 @@ const FAQ = () => {
   ];
 
   return (
-    <section className="py-32 px-6 md:px-12 bg-white/40 border-y border-border/40">
+    <section className="py-20 md:py-32 px-5 md:px-12 bg-white/40 border-y border-border/40">
       <div className="max-w-3xl mx-auto">
         <FadeIn>
           <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-4 text-center">FAQ</h2>
         </FadeIn>
         <FadeIn delay={0.1}>
-          <p className="text-3xl md:text-5xl font-serif text-foreground leading-tight mb-12 md:mb-16 text-center">
+          <p className="text-3xl md:text-5xl font-serif text-foreground leading-tight mb-12 md:mb-10 md:mb-16 text-center">
             Что обычно спрашивают
           </p>
         </FadeIn>
@@ -1085,31 +1092,31 @@ const FinalCTA = () => {
   const prefersReducedMotion = useReducedMotion();
   
   return (
-    <section className="relative py-48 px-6 md:px-12 min-h-[80vh] flex flex-col items-center justify-center text-center overflow-hidden">
+    <section className="relative py-24 md:py-48 px-5 md:px-12 min-h-[70vh] md:min-h-[80vh] flex flex-col items-center justify-center text-center overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 bg-radial-gradient from-primary/10 to-transparent opacity-50" />
-      
-      <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
+
+      <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center w-full">
         <FadeIn>
-          <h2 className="text-5xl md:text-7xl font-serif text-foreground mb-16 leading-tight">
+          <h2 className="text-[2.25rem] sm:text-5xl md:text-7xl font-serif text-foreground mb-10 md:mb-16 leading-[1.1]">
             Если тебе откликается — заходи.
           </h2>
         </FadeIn>
-        
-        <FadeIn delay={0.2}>
+
+        <FadeIn delay={0.2} className="w-full sm:w-auto">
           <motion.div
-            animate={prefersReducedMotion ? {} : { 
-              boxShadow: ["0px 0px 0px 0px rgba(var(--primary), 0)", "0px 0px 40px 10px rgba(var(--primary), 0.15)", "0px 0px 0px 0px rgba(var(--primary), 0)"] 
+            animate={prefersReducedMotion ? {} : {
+              boxShadow: ["0px 0px 0px 0px rgba(var(--primary), 0)", "0px 0px 40px 10px rgba(var(--primary), 0.15)", "0px 0px 0px 0px rgba(var(--primary), 0)"]
             }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             className="rounded-full"
           >
-            <JoinButton className="text-lg px-12 py-5" />
+            <JoinButton className="text-base md:text-lg px-8 md:px-12 py-4 md:py-5 w-full sm:w-auto" />
           </motion.div>
         </FadeIn>
-        
+
         <FadeIn delay={0.4}>
-          <p className="mt-8 text-sm font-mono text-muted-foreground uppercase tracking-widest">
+          <p className="mt-6 md:mt-8 text-xs md:text-sm font-mono text-muted-foreground uppercase tracking-widest">
             осталось 36 из 40 мест
           </p>
         </FadeIn>
@@ -1189,25 +1196,63 @@ export default function LandingPage() {
         <p>Закрытое комьюнити &copy; {new Date().getFullYear()}</p>
       </footer>
 
-      {/* Fixed Bottom CTA */}
+      {/* Sticky CTA — full-width bar on mobile, floating pill on desktop */}
       <AnimatePresence>
         {showFixedCTA && (
-          <motion.div
-            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.9 }}
-            animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
-            exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-6 right-6 z-40"
-          >
-            <a
-              href="https://t.me/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          <>
+            {/* Mobile: full-width bottom bar */}
+            <motion.div
+              initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 30 }}
+              animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 30 }}
+              transition={{ duration: 0.35, ease: [0.21, 0.47, 0.32, 0.98] }}
+              className="md:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pb-3 pt-2 pointer-events-none"
             >
-              Вступить
-              <ArrowRight className="w-4 h-4" />
-            </a>
-          </motion.div>
+              <div className="pointer-events-auto rounded-2xl bg-background/95 backdrop-blur-md border border-border shadow-[0_-8px_30px_-10px_rgba(0,0,0,0.15)] p-3 flex items-center gap-3">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-primary mb-0.5">
+                    <span className="relative flex h-1.5 w-1.5">
+                      {!prefersReducedMotion && (
+                        <span className="absolute inline-flex h-full w-full rounded-full bg-primary/60 animate-ping" />
+                      )}
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
+                    </span>
+                    набор открыт
+                  </div>
+                  <div className="text-xs text-muted-foreground truncate">
+                    осталось <span className="text-foreground font-medium">36 / 40</span> мест
+                  </div>
+                </div>
+                <a
+                  href="https://t.me/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 flex items-center gap-1.5 px-4 py-2.5 bg-primary text-primary-foreground rounded-full text-sm font-medium shadow-md active:scale-95 transition-transform outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                >
+                  Вступить
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </motion.div>
+
+            {/* Desktop: floating pill */}
+            <motion.div
+              initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.9 }}
+              animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+              exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.9 }}
+              className="hidden md:block fixed bottom-6 right-6 z-40"
+            >
+              <a
+                href="https://t.me/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              >
+                Вступить
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </main>
