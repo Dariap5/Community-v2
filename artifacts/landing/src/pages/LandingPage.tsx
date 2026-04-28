@@ -72,8 +72,15 @@ const Hero = () => {
         {/* Animated Counter */}
         <div className="mb-12 flex flex-col gap-4">
           <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground/60 select-none font-mono">
-            <span className="text-foreground/80">01 / 40</span>
-            <div className="w-12 h-px bg-border"></div>
+            <span className="text-foreground/80">12 / 40</span>
+            <div className="w-12 h-px bg-border relative overflow-hidden">
+              <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: "100%" }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inset-0 w-full bg-primary/60"
+              />
+            </div>
             <span className="text-primary">40 / 40</span>
           </div>
           <div className="flex gap-1">
@@ -337,19 +344,23 @@ const HowItWorks = () => {
     { title: "Начинаешь движение: weekly созвоны, задачи, поддержка", icon: <><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" strokeWidth="2" /><polyline points="12 5 19 12 12 19" stroke="currentColor" strokeWidth="2" fill="none" /></> }
   ];
 
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isSectionInView = useInView(sectionRef, { once: true, margin: "-15%" });
+  const stepDelay = 0.45;
+
   return (
-    <section className="py-32 px-6 md:px-12 max-w-5xl mx-auto">
+    <section ref={sectionRef} className="py-32 px-6 md:px-12 max-w-5xl mx-auto">
       <FadeIn>
         <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-16">Как это работает</h2>
       </FadeIn>
       
       <div className="relative">
-        <div className="absolute left-[27px] top-0 bottom-0 w-px bg-border/50">
+        {/* Track */}
+        <div className="absolute left-[27px] top-0 bottom-0 w-px bg-border/50" aria-hidden="true">
           <motion.div 
             initial={{ scaleY: 0 }}
-            whileInView={{ scaleY: 1 }}
-            viewport={{ once: true, margin: "-20%" }}
-            transition={{ duration: 1.5, ease: "linear" }}
+            animate={isSectionInView ? { scaleY: 1 } : { scaleY: 0 }}
+            transition={{ duration: stepDelay * steps.length + 0.4, ease: [0.65, 0, 0.35, 1] }}
             className="absolute top-0 left-0 w-full h-full bg-primary origin-top"
           />
         </div>
@@ -359,16 +370,26 @@ const HowItWorks = () => {
             <motion.div 
               key={i}
               initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ delay: i * 0.3, duration: 0.6 }}
+              animate={isSectionInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+              transition={{ delay: i * stepDelay + 0.2, duration: 0.6, ease: "easeOut" }}
               className="relative pl-20 group"
             >
-              <div className="absolute left-0 top-1 w-[54px] h-[54px] rounded-full bg-background border border-border flex items-center justify-center z-10 transition-colors duration-500 group-hover:border-primary group-hover:bg-primary/5 shadow-sm">
-                <svg width="24" height="24" viewBox="0 0 24 24" className="text-muted-foreground group-hover:text-primary transition-colors duration-500">
+              <motion.div
+                initial={{ scale: 0.6, borderColor: "hsl(var(--border))", backgroundColor: "hsl(var(--background))" }}
+                animate={isSectionInView ? { scale: 1 } : { scale: 0.6 }}
+                transition={{ delay: i * stepDelay + 0.35, type: "spring", stiffness: 220, damping: 18 }}
+                className="absolute left-0 top-1 w-[54px] h-[54px] rounded-full bg-background border-2 border-border flex items-center justify-center z-10 transition-colors duration-500 group-hover:border-primary group-hover:bg-primary/5 shadow-sm"
+              >
+                <motion.div
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={isSectionInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+                  transition={{ delay: i * stepDelay + 0.55, duration: 0.4 }}
+                  className="absolute inset-0 rounded-full ring-2 ring-primary/30"
+                />
+                <svg width="24" height="24" viewBox="0 0 24 24" className="text-muted-foreground group-hover:text-primary transition-colors duration-500 relative z-10">
                   {step.icon}
                 </svg>
-              </div>
+              </motion.div>
               <div className="pt-3">
                 <div className="text-xs font-mono text-primary/60 mb-2">Шаг 0{i + 1}</div>
                 <p className="text-xl md:text-3xl font-serif text-foreground">{step.title}</p>
@@ -437,9 +458,39 @@ const WhatsInside = () => {
 
 const Foundation = () => {
   const pillars = [
-    { title: "Buddy system", desc: "Связка 1-на-1 для еженедельного контроля прогресса." },
-    { title: "Weekly созвоны", desc: "Синхронизация небольшими группами. Планы, победы, затыки." },
-    { title: "Живое общение", desc: "Закрытый чат, где можно спросить что угодно и получить ответ." }
+    {
+      title: "Buddy system",
+      desc: "Связка 1-на-1 для еженедельного контроля прогресса.",
+      icon: (
+        <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="11" cy="13" r="4" />
+          <circle cx="21" cy="13" r="4" />
+          <path d="M4 26c1.5-3.5 4-5 7-5s5.5 1.5 7 5" />
+          <path d="M14 26c1.5-3.5 4-5 7-5s5.5 1.5 7 5" />
+        </svg>
+      )
+    },
+    {
+      title: "Weekly созвоны",
+      desc: "Синхронизация небольшими группами. Планы, победы, затыки.",
+      icon: (
+        <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="4" y="8" width="18" height="16" rx="2" />
+          <path d="M22 14l6-3v10l-6-3z" />
+          <circle cx="10" cy="14" r="1.5" fill="currentColor" />
+        </svg>
+      )
+    },
+    {
+      title: "Живое общение",
+      desc: "Закрытый чат, где можно спросить что угодно и получить ответ.",
+      icon: (
+        <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 10a3 3 0 013-3h12a3 3 0 013 3v8a3 3 0 01-3 3h-8l-5 4v-4a3 3 0 01-3-3z" />
+          <path d="M10 13h8M10 16h5" />
+        </svg>
+      )
+    }
   ];
 
   return (
@@ -463,6 +514,9 @@ const Foundation = () => {
             </div>
             
             <div className="pl-8 py-4">
+              <div className="mb-5 inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/10 text-primary transition-all duration-500 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105">
+                {pillar.icon}
+              </div>
               <h3 className="text-2xl md:text-3xl font-serif text-foreground mb-4 group-hover:text-primary transition-colors duration-300">
                 {pillar.title}
               </h3>
@@ -523,7 +577,22 @@ const EarlyAccess = () => {
   const cols = 8;
   const rows = 5;
   const total = cols * rows;
-  const filled = 12;
+  const baseFilled = 12;
+  const prefersReducedMotion = useReducedMotion();
+  const [pulseIndex, setPulseIndex] = useState<number | null>(null);
+
+  // Periodically "light up" one of the empty cells to give a sense
+  // of someone joining the community right now.
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    const tick = () => {
+      const i = baseFilled + Math.floor(Math.random() * (total - baseFilled));
+      setPulseIndex(i);
+      window.setTimeout(() => setPulseIndex(null), 1400);
+    };
+    const interval = window.setInterval(tick, 3200);
+    return () => window.clearInterval(interval);
+  }, [prefersReducedMotion]);
 
   return (
     <section className="py-32 px-6 md:px-12 overflow-hidden">
@@ -539,27 +608,52 @@ const EarlyAccess = () => {
               Дальше вход станет сложнее, дороже и с отбором.
             </p>
           </FadeIn>
+          <FadeIn delay={0.35}>
+            <div className="flex items-center gap-3 text-sm font-mono uppercase tracking-wider text-muted-foreground">
+              <span className="relative flex h-2 w-2">
+                {!prefersReducedMotion && (
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-primary/60 animate-ping" />
+                )}
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+              </span>
+              <span>набор открыт прямо сейчас</span>
+            </div>
+          </FadeIn>
         </div>
         
         <div className="flex-1 w-full max-w-md">
           <div className="grid grid-cols-8 gap-2 p-6 rounded-3xl border border-border bg-white/50 shadow-sm">
-            {Array.from({ length: total }).map((_, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.02, duration: 0.4 }}
-                className="aspect-square"
-              >
-                <div className={`w-full h-full rounded-sm md:rounded-md transition-colors duration-500 ${i < filled ? 'bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.4)]' : 'border border-border/60 bg-muted/10'}`} />
-              </motion.div>
-            ))}
+            {Array.from({ length: total }).map((_, i) => {
+              const isFilled = i < baseFilled;
+              const isPulse = pulseIndex === i;
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.02, duration: 0.4 }}
+                  className="aspect-square"
+                >
+                  <motion.div
+                    animate={isPulse ? { scale: [1, 1.15, 1] } : { scale: 1 }}
+                    transition={{ duration: 1.2, ease: "easeOut" }}
+                    className={`w-full h-full rounded-sm md:rounded-md transition-colors duration-500 ${
+                      isFilled
+                        ? 'bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.4)]'
+                        : isPulse
+                          ? 'bg-primary/40 shadow-[0_0_14px_hsl(var(--primary)/0.45)]'
+                          : 'border border-border/60 bg-muted/10'
+                    }`}
+                  />
+                </motion.div>
+              );
+            })}
           </div>
           <FadeIn delay={0.8}>
             <div className="mt-6 flex items-center justify-between px-2 text-sm font-mono uppercase tracking-wider text-muted-foreground">
               <span>Статус набора</span>
-              <span className="text-primary font-medium">осталось {total - filled} из {total} мест</span>
+              <span className="text-primary font-medium">осталось {total - baseFilled} из {total} мест</span>
             </div>
           </FadeIn>
         </div>
@@ -689,12 +783,14 @@ export default function LandingPage() {
         <Hero />
       </div>
       
-      <WhySmall />
       <Pain />
       <Reframe />
+      <WhySmall />
       <Solution />
-      <HowItWorks />
+      <WhoItsFor />
       <WhatsInside />
+      <Foundation />
+      <HowItWorks />
       
       <div className="py-20 flex justify-center border-y border-border/40 bg-white/20">
         <FadeIn>
@@ -702,8 +798,6 @@ export default function LandingPage() {
         </FadeIn>
       </div>
       
-      <Foundation />
-      <WhoItsFor />
       <EarlyAccess />
       <Pricing />
       
