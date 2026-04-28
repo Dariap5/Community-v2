@@ -84,7 +84,7 @@ const Hero = () => {
   const totalCount = 40;
   
   return (
-    <section ref={containerRef} className="relative min-h-[100svh] md:min-h-[95vh] flex flex-col justify-center pt-16 pb-16 md:pt-20 md:pb-32 px-5 md:px-12 overflow-hidden">
+    <section ref={containerRef} className="relative min-h-[100svh] md:min-h-[95vh] flex flex-col justify-center pt-12 pb-12 md:pt-20 md:pb-32 px-4 md:px-12 overflow-hidden">
       {/* Subtle Grain Background */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }}></div>
       <div className="absolute inset-0 bg-radial-gradient from-primary/5 to-transparent opacity-50" />
@@ -95,7 +95,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: prefersReducedMotion ? 0 : -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mb-5 md:mb-8 inline-flex items-center gap-3 text-[10px] md:text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground"
+          className="mb-3 md:mb-8 inline-flex items-center gap-2 text-[9px] md:text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground"
         >
           <span className="relative flex h-1.5 w-1.5">
             {!prefersReducedMotion && (
@@ -103,11 +103,12 @@ const Hero = () => {
             )}
             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
           </span>
-          Telegram-комьюнити · набор открыт
+          <span className="hidden sm:inline">Telegram-комьюнити · набор открыт</span>
+          <span className="sm:hidden">Набор открыт</span>
         </motion.div>
 
-        {/* Animated Counter — compact on mobile */}
-        <div className="mb-7 md:mb-12 flex flex-col gap-3 md:gap-4">
+        {/* Animated Counter — hidden on mobile for simplicity */}
+        <div className="mb-6 md:mb-12 flex flex-col gap-2 md:gap-4 hidden md:flex">
           <div className="flex items-end gap-3 md:gap-4 text-xs md:text-sm font-medium text-muted-foreground/60 select-none font-mono">
             <div className="flex flex-col items-start">
               <span className="text-foreground/80">04 / 40</span>
@@ -140,8 +141,8 @@ const Hero = () => {
         </div>
 
         {/* Headline — natural inline wrapping for clean mobile, blur-in animation */}
-        <h1 className="text-[1.75rem] sm:text-4xl md:text-6xl lg:text-[5rem] leading-[1.12] md:leading-[1.05] font-serif text-foreground max-w-4xl mb-5 md:mb-8 tracking-tight">
-          {"Закрытое комьюнити, в которое сейчас набираем первых 40 человек".split(" ").map((word, i) => (
+        <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-[5rem] leading-[1.15] md:leading-[1.05] font-serif text-foreground max-w-4xl mb-4 md:mb-8 tracking-tight">
+          {"Закрытое комьюнити для 40 человек, которые двигают себя".split(" ").map((word, i) => (
             <React.Fragment key={i}>
               <motion.span
                 initial={{ opacity: 0, filter: prefersReducedMotion ? "none" : "blur(8px)", y: prefersReducedMotion ? 0 : 14 }}
@@ -151,7 +152,7 @@ const Hero = () => {
               >
                 {word}
               </motion.span>
-              {i < "Закрытое комьюнити, в которое сейчас набираем первых 40 человек".split(" ").length - 1 && " "}
+              {i < "Закрытое комьюнити для 40 человек, которые двигают себя".split(" ").length - 1 && " "}
             </React.Fragment>
           ))}
         </h1>
@@ -182,7 +183,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.7, duration: 0.8 }}
-          className="mt-8 md:mt-14 flex flex-wrap gap-x-5 md:gap-x-8 gap-y-2 md:gap-y-3 text-[11px] md:text-sm font-mono uppercase tracking-wider text-muted-foreground"
+          className="mt-6 md:mt-14 flex flex-wrap gap-x-4 md:gap-x-8 gap-y-2 md:gap-y-3 text-[10px] md:text-sm font-mono uppercase tracking-wider text-muted-foreground"
         >
           {["Buddy 1-на-1", "Weekly созвоны", "Карьера · Бизнес · AI"].map((m, i) => (
             <div key={m} className="flex items-center gap-2">
@@ -280,10 +281,10 @@ const WhySmall = () => {
           </div>
         </div>
 
-        <div className="order-1 lg:order-2 max-w-xl">
+        <div className="order-1 lg:order-2 max-w-2xl">
           <FadeIn>
-            <p className="text-2xl md:text-3xl lg:text-4xl font-serif leading-relaxed text-foreground">
-              "Ты заходишь не в переполненный чат, а в среду, где тебя реально замечают, с тобой общаются, и ты становишься частью ядра."
+            <p className="text-xl md:text-3xl lg:text-4xl font-serif leading-relaxed text-foreground">
+              Ты попадаешь не в переполненный чат, а в <span className="text-primary">среду, где тебя замечают</span>
             </p>
           </FadeIn>
         </div>
@@ -311,7 +312,7 @@ const Pain = () => {
       </FadeIn>
 
       {/* Stack of "thoughts" — each one fades in with a slight blur, like a passing reflection */}
-      <div className="space-y-5 md:space-y-7 mb-14 md:mb-28">
+      <div className="space-y-4 md:space-y-7 mb-10 md:mb-28">
         {thoughts.map((t, i) => (
           <motion.p
             key={i}
@@ -326,9 +327,9 @@ const Pain = () => {
               filter: "blur(0px)",
             } : {}}
             transition={{ delay: 0.2 + i * 0.35, duration: 0.7, ease: "easeOut" }}
-            className="text-lg md:text-2xl lg:text-3xl font-serif text-muted-foreground/80 leading-relaxed flex items-start gap-3 md:gap-4"
+            className="text-base md:text-2xl lg:text-3xl font-serif text-muted-foreground/80 leading-relaxed flex items-start gap-2 md:gap-4"
           >
-            <span className="font-mono text-[10px] md:text-xs text-primary/50 mt-2 md:mt-3 shrink-0 w-5 md:w-6">0{i + 1}</span>
+            <span className="font-mono text-[9px] md:text-xs text-primary/50 mt-1 md:mt-3 shrink-0 w-5 md:w-6">0{i + 1}</span>
             <span>«{t}»</span>
           </motion.p>
         ))}
@@ -340,9 +341,8 @@ const Pain = () => {
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ delay: 0.2 + thoughts.length * 0.35 + 0.3, duration: 0.8, ease: "easeOut" }}
       >
-        <p className="text-[1.75rem] sm:text-3xl md:text-5xl lg:text-6xl font-serif text-foreground leading-[1.15]">
-          Не потому что лень.{" "}
-          <span className="text-primary">А потому что один.</span>
+        <p className="text-[1.5rem] sm:text-2xl md:text-4xl lg:text-5xl font-serif text-foreground leading-[1.15]">
+          Не потому что лень <span className="text-primary">— а потому что один</span>
         </p>
       </motion.div>
     </section>
@@ -539,7 +539,7 @@ const WhatsInside = () => {
           <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-10 md:mb-16 text-center md:text-left">Что внутри</h2>
         </FadeIn>
 
-        <div className="grid md:grid-cols-3 gap-4 mb-12">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-12">
           {topics.map((topic, i) => {
             const isActive = activeIndex === i;
             return (
@@ -551,17 +551,17 @@ const WhatsInside = () => {
                 transition={{ delay: i * 0.1 }}
                 onHoverStart={() => setActiveIndex(i)}
                 onClick={() => setActiveIndex(i)}
-                className={`relative p-8 rounded-3xl border cursor-pointer transition-all duration-500 self-start
+                className={`relative p-6 md:p-8 rounded-3xl border cursor-pointer transition-all duration-500 self-start
                   ${isActive
                     ? 'bg-primary text-primary-foreground border-primary shadow-xl shadow-primary/10'
                     : 'bg-background border-border hover:border-primary/30 hover:-translate-y-0.5'}
                 `}
               >
-                <div className={`text-xs font-mono mb-4 transition-colors duration-500 ${isActive ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>
+                <div className={`text-[10px] md:text-xs font-mono mb-3 transition-colors duration-500 ${isActive ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>
                   {String(i + 1).padStart(2, "0")} · {topic.id.toUpperCase()}
                 </div>
-                <h3 className="text-2xl font-serif mb-2">{topic.label}</h3>
-                <p className={`text-sm transition-colors duration-500 ${isActive ? 'text-primary-foreground/90' : 'text-muted-foreground'}`}>
+                <h3 className="text-lg md:text-2xl font-serif mb-2">{topic.label}</h3>
+                <p className={`text-xs md:text-sm transition-colors duration-500 ${isActive ? 'text-primary-foreground/90' : 'text-muted-foreground'}`}>
                   {topic.desc}
                 </p>
 
@@ -601,8 +601,8 @@ const WhatsInside = () => {
 
         <FadeIn delay={0.4}>
           <div className="text-center mt-12">
-            <p className="inline-block text-xl md:text-2xl font-light text-foreground border-b border-primary/20 pb-1">
-              У тебя есть доступ ко всему сразу — без выбора «раз и навсегда».
+            <p className="inline-block text-base md:text-2xl font-light text-foreground border-b border-primary/20 pb-1">
+              Доступ ко всему одновременно
             </p>
           </div>
         </FadeIn>
@@ -657,11 +657,11 @@ const Foundation = () => {
         <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-10 md:mb-16 text-center">Основа</h2>
       </FadeIn>
       
-      <div className="grid md:grid-cols-3 gap-12 md:gap-8">
+      <div className="grid md:grid-cols-3 gap-8 md:gap-10">
         {pillars.map((pillar, i) => (
-          <FadeIn key={i} delay={i * 0.2} className="relative group">
+          <FadeIn key={i} delay={i * 0.15} className="relative group">
             {/* Animated Accent Line */}
-            <div className="absolute left-0 top-0 bottom-0 w-px bg-border/40">
+            <div className="absolute left-0 top-0 bottom-0 w-px bg-border/40 hidden md:block">
               <motion.div 
                 initial={{ scaleY: 0 }}
                 whileInView={{ scaleY: 1 }}
@@ -671,14 +671,14 @@ const Foundation = () => {
               />
             </div>
             
-            <div className="pl-8 py-4">
-              <div className="mb-5 inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/10 text-primary transition-all duration-500 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105">
+            <div className="md:pl-8 py-4">
+              <div className="mb-4 md:mb-5 inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/10 text-primary transition-all duration-500 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105">
                 {pillar.icon}
               </div>
-              <h3 className="text-2xl md:text-3xl font-serif text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
+              <h3 className="text-xl md:text-3xl font-serif text-foreground mb-2 md:mb-3 group-hover:text-primary transition-colors duration-300">
                 {pillar.title}
               </h3>
-              <p className="text-muted-foreground leading-relaxed mb-4">
+              <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-3 md:mb-4">
                 {pillar.desc}
               </p>
               <div className="text-xs font-mono uppercase tracking-wider text-primary/70">
@@ -821,27 +821,27 @@ const EarlyAccess = () => {
 
   return (
     <section className="py-20 md:py-32 px-5 md:px-12 overflow-hidden">
-      <div className="max-w-5xl mx-auto flex flex-col lg:flex-row gap-10 md:gap-16 items-center">
-        <div className="flex-1 space-y-6 md:space-y-8 w-full">
+      <div className="max-w-5xl mx-auto flex flex-col lg:flex-row gap-8 md:gap-16 items-center">
+        <div className="flex-1 space-y-4 md:space-y-8 w-full">
           <FadeIn>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-foreground leading-[1.1]">
-              Сейчас открываем набор первых 40 человек.
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-foreground leading-[1.1]">
+              Сейчас открываем набор
             </h2>
           </FadeIn>
           <FadeIn delay={0.2}>
-            <p className="text-lg md:text-2xl text-muted-foreground font-light leading-relaxed">
+            <p className="text-base md:text-xl text-muted-foreground font-light leading-relaxed">
               Дальше вход станет сложнее, дороже и с отбором.
             </p>
           </FadeIn>
           <FadeIn delay={0.35}>
-            <div className="flex items-center gap-3 text-xs md:text-sm font-mono uppercase tracking-wider text-muted-foreground">
+            <div className="flex items-center gap-2 md:gap-3 text-xs md:text-sm font-mono uppercase tracking-wider text-muted-foreground">
               <span className="relative flex h-2 w-2">
                 {!prefersReducedMotion && (
                   <span className="absolute inline-flex h-full w-full rounded-full bg-primary/60 animate-ping" />
                 )}
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
               </span>
-              <span>набор открыт прямо сейчас</span>
+              <span>Набор открыт прямо сейчас</span>
             </div>
           </FadeIn>
           <FadeIn delay={0.5}>
@@ -961,8 +961,8 @@ const Routine = () => {
         <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-4 text-center md:text-left">Ритм недели</h2>
       </FadeIn>
       <FadeIn delay={0.1}>
-        <p className="text-3xl md:text-5xl font-serif text-foreground leading-tight mb-12 md:mb-10 md:mb-16 max-w-3xl">
-          Не курс, а <span className="text-primary">постоянная среда</span> — встроенная в твою неделю.
+        <p className="text-2xl md:text-5xl font-serif text-foreground leading-tight mb-10 md:mb-16 max-w-3xl">
+          Не курс, а <span className="text-primary">постоянная среда</span>
         </p>
       </FadeIn>
 
@@ -1047,10 +1047,10 @@ const FAQ = () => {
         <FadeIn>
           <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-4 text-center">FAQ</h2>
         </FadeIn>
-        <FadeIn delay={0.1}>
-          <p className="text-3xl md:text-5xl font-serif text-foreground leading-tight mb-12 md:mb-10 md:mb-16 text-center">
+        <FadeIn>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-foreground mb-8 md:mb-10 leading-[1.1] text-center">
             Что обычно спрашивают
-          </p>
+          </h2>
         </FadeIn>
 
         <div className="divide-y divide-border/60 border-y border-border/60">
@@ -1067,18 +1067,18 @@ const FAQ = () => {
                 <button
                   type="button"
                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="w-full text-left py-6 md:py-7 flex items-start justify-between gap-6 group outline-none"
+                  className="w-full text-left py-5 md:py-7 flex items-start justify-between gap-4 md:gap-6 group outline-none"
                   aria-expanded={isOpen}
                 >
-                  <span className={`text-lg md:text-xl font-serif leading-snug transition-colors duration-300 ${isOpen ? 'text-primary' : 'text-foreground group-hover:text-primary'}`}>
+                  <span className={`text-base md:text-xl font-serif leading-snug transition-colors duration-300 ${isOpen ? 'text-primary' : 'text-foreground group-hover:text-primary'}`}>
                     {item.q}
                   </span>
                   <motion.span
                     animate={{ rotate: isOpen ? 45 : 0 }}
                     transition={{ duration: 0.3, ease: "easeOut" }}
-                    className={`mt-1 inline-flex items-center justify-center w-7 h-7 rounded-full border shrink-0 transition-colors duration-300 ${isOpen ? 'border-primary text-primary bg-primary/10' : 'border-border text-muted-foreground group-hover:border-primary/40 group-hover:text-primary'}`}
+                    className={`mt-0.5 inline-flex items-center justify-center w-6 h-6 rounded-full border shrink-0 transition-colors duration-300 ${isOpen ? 'border-primary text-primary bg-primary/10' : 'border-border text-muted-foreground group-hover:border-primary/40 group-hover:text-primary'}`}
                   >
-                    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+                    <svg viewBox="0 0 24 24" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
                       <line x1="12" y1="5" x2="12" y2="19" />
                       <line x1="5" y1="12" x2="19" y2="12" />
                     </svg>
@@ -1094,7 +1094,7 @@ const FAQ = () => {
                       transition={{ duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
                       className="overflow-hidden"
                     >
-                      <p className="pb-7 pr-12 text-base md:text-lg text-muted-foreground leading-relaxed">
+                      <p className="pb-5 md:pb-7 pr-8 md:pr-12 text-sm md:text-base text-muted-foreground leading-relaxed">
                         {item.a}
                       </p>
                     </motion.div>
@@ -1117,8 +1117,8 @@ const FinalCTA = ({ floating }: { floating: boolean }) => {
 
       <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center w-full">
         <FadeIn>
-          <h2 className="text-[2.25rem] sm:text-5xl md:text-7xl font-serif text-foreground mb-10 md:mb-16 leading-[1.1]">
-            Если тебе откликается — заходи.
+          <h2 className="text-[1.75rem] sm:text-4xl md:text-6xl font-serif text-foreground mb-10 md:mb-16 leading-[1.1]">
+            Если тебе откликается — заходи
           </h2>
         </FadeIn>
 
@@ -1205,8 +1205,49 @@ export default function LandingPage() {
         <FinalCTA floating={showFixedCTA} />
       </div>
 
-      <footer className="py-12 text-center text-sm font-mono text-muted-foreground/40 border-t border-border/30">
-        <p>Закрытое комьюнити &copy; {new Date().getFullYear()}</p>
+      <footer className="py-12 md:py-16 px-5 md:px-12 border-t border-border/30 bg-background/50 backdrop-blur-sm">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div>
+              <h3 className="font-serif text-lg text-foreground mb-4">Community</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Закрытое комьюнити для людей, которые двигают себя вперёд. 40 участников, одна цель — рост.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-medium text-sm text-foreground mb-3 uppercase tracking-wider">Ссылки</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="https://t.me/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">Telegram</a></li>
+                <li><a href="#faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</a></li>
+                <li><a href="#pricing" className="text-muted-foreground hover:text-primary transition-colors">Тарифы</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium text-sm text-foreground mb-3 uppercase tracking-wider">Документы</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="/offer" target="_blank" className="text-muted-foreground hover:text-primary transition-colors">Публичная оферта</a></li>
+                <li><a href="/privacy" target="_blank" className="text-muted-foreground hover:text-primary transition-colors">Политика конфиденциальности</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium text-sm text-foreground mb-3 uppercase tracking-wider">Контакты</h4>
+              <p className="text-sm text-muted-foreground">
+                <a href="https://t.me/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Напишите нам в Telegram</a>
+              </p>
+            </div>
+          </div>
+
+          <div className="border-t border-border/30 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-xs font-mono text-muted-foreground/60">
+              © {new Date().getFullYear()} Закрытое комьюнити. Все права защищены.
+            </p>
+            <div className="flex gap-4 text-xs text-muted-foreground/60">
+              <a href="/offer" className="hover:text-primary transition-colors">Оферта</a>
+              <span>·</span>
+              <a href="/privacy" className="hover:text-primary transition-colors">Конфиденциальность</a>
+            </div>
+          </div>
+        </div>
       </footer>
 
       {/* Single floating CTA — centered after Hero, then morphs into FinalCTA via shared layoutId.
