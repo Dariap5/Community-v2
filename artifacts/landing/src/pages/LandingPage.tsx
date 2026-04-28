@@ -59,7 +59,7 @@ const Hero = () => {
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
   // Animated Counter Motif
-  const filledCount = 12;
+  const filledCount = 4;
   const totalCount = 40;
   
   return (
@@ -69,11 +69,30 @@ const Hero = () => {
       <div className="absolute inset-0 bg-radial-gradient from-primary/5 to-transparent opacity-50" />
 
       <motion.div style={{ y, opacity }} className="relative z-10 max-w-5xl mx-auto w-full">
+        {/* Eyebrow */}
+        <motion.div
+          initial={{ opacity: 0, y: prefersReducedMotion ? 0 : -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="mb-8 inline-flex items-center gap-3 text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground"
+        >
+          <span className="relative flex h-1.5 w-1.5">
+            {!prefersReducedMotion && (
+              <span className="absolute inline-flex h-full w-full rounded-full bg-primary/60 animate-ping" />
+            )}
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
+          </span>
+          Telegram-комьюнити · набор открыт
+        </motion.div>
+
         {/* Animated Counter */}
         <div className="mb-12 flex flex-col gap-4">
-          <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground/60 select-none font-mono">
-            <span className="text-foreground/80">12 / 40</span>
-            <div className="w-12 h-px bg-border relative overflow-hidden">
+          <div className="flex items-end gap-4 text-sm font-medium text-muted-foreground/60 select-none font-mono">
+            <div className="flex flex-col items-start">
+              <span className="text-foreground/80">04 / 40</span>
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60 mt-0.5">заняли</span>
+            </div>
+            <div className="w-12 h-px bg-border relative overflow-hidden mb-3">
               <motion.div
                 initial={{ x: "-100%" }}
                 animate={{ x: "100%" }}
@@ -81,7 +100,10 @@ const Hero = () => {
                 className="absolute inset-0 w-full bg-primary/60"
               />
             </div>
-            <span className="text-primary">40 / 40</span>
+            <div className="flex flex-col items-start">
+              <span className="text-primary">36 / 40</span>
+              <span className="text-[10px] uppercase tracking-widest text-primary/70 mt-0.5">свободно</span>
+            </div>
           </div>
           <div className="flex gap-1">
             {Array.from({ length: totalCount }).map((_, i) => (
@@ -124,10 +146,27 @@ const Hero = () => {
           initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.4, duration: 0.8 }}
-          className="flex flex-col items-start gap-5"
+          className="flex flex-col items-start gap-4"
         >
           <JoinButton />
-          <p className="text-sm text-muted-foreground italic tracking-wide">Сейчас нас мало — и в этом главный плюс</p>
+          <p className="text-sm text-muted-foreground tracking-wide">
+            <span className="text-foreground/80 font-medium">4 из 40 мест</span> заняты · набор закроется автоматически
+          </p>
+        </motion.div>
+
+        {/* Three micro-markers — set context in 1 sec */}
+        <motion.div 
+          initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.7, duration: 0.8 }}
+          className="mt-14 flex flex-wrap gap-x-8 gap-y-3 text-sm font-mono uppercase tracking-wider text-muted-foreground"
+        >
+          {["Buddy 1-на-1", "Weekly созвоны", "Карьера · Бизнес · AI"].map((m, i) => (
+            <div key={m} className="flex items-center gap-2">
+              <span className="w-1 h-1 rounded-full bg-primary/70" />
+              {m}
+            </div>
+          ))}
         </motion.div>
       </motion.div>
     </section>
@@ -142,55 +181,79 @@ const WhySmall = () => {
   return (
     <section ref={ref} className="py-32 px-6 md:px-12 bg-white/40 border-y border-border/40 overflow-hidden">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-        <div className="order-2 lg:order-1 relative h-64 md:h-80 w-full flex items-center justify-center bg-background rounded-3xl border border-border/50 overflow-hidden">
-          {/* Crowded vs Clean Visualization */}
-          <div className="absolute inset-0 flex">
-            {/* Left: Crowded (Noisy Chat) */}
-            <div className="w-1/2 relative border-r border-border/50 bg-muted/20">
-              <div className="absolute inset-0 flex items-center justify-center">
-                {Array.from({ length: 80 }).map((_, i) => (
-                  <motion.div
-                    key={`noise-${i}`}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={isInView ? { opacity: 0.2 + Math.random() * 0.3, scale: 1 } : { opacity: 0, scale: 0 }}
-                    transition={{ delay: Math.random() * 0.5, duration: 0.8 }}
-                    className="absolute w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-foreground/40"
-                    style={{
-                      left: `${10 + Math.random() * 80}%`,
-                      top: `${10 + Math.random() * 80}%`,
-                    }}
-                  />
-                ))}
+        <div className="order-2 lg:order-1 w-full">
+          <div className="relative h-64 md:h-80 w-full flex items-center justify-center bg-background rounded-3xl border border-border/50 overflow-hidden">
+            {/* Crowded vs Clean Visualization */}
+            <div className="absolute inset-0 flex">
+              {/* Left: Crowded (Noisy Chat) */}
+              <div className="w-1/2 relative border-r border-border/50 bg-muted/20">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {Array.from({ length: 80 }).map((_, i) => (
+                    <motion.div
+                      key={`noise-${i}`}
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={isInView ? { opacity: 0.2 + Math.random() * 0.3, scale: 1 } : { opacity: 0, scale: 0 }}
+                      transition={{ delay: Math.random() * 0.5, duration: 0.8 }}
+                      className="absolute w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-foreground/40"
+                      style={{
+                        left: `${10 + Math.random() * 80}%`,
+                        top: `${10 + Math.random() * 80}%`,
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-            {/* Right: Small Core */}
-            <div className="w-1/2 relative bg-primary/5">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative w-24 h-24">
-                  {Array.from({ length: 12 }).map((_, i) => {
-                    const angle = (i / 12) * Math.PI * 2;
-                    const radius = 24;
-                    const x = Math.cos(angle) * radius;
-                    const y = Math.sin(angle) * radius;
-                    return (
-                      <motion.div
-                        key={`core-${i}`}
-                        initial={{ opacity: 0, x: 0, y: 0 }}
-                        animate={isInView ? { opacity: 1, x, y } : { opacity: 0, x: 0, y: 0 }}
-                        transition={{ delay: 0.6 + i * 0.05, duration: 0.8, type: "spring" }}
-                        className="absolute left-1/2 top-1/2 -ml-1.5 -mt-1.5 w-3 h-3 md:w-4 md:h-4 rounded-full bg-primary"
-                      />
-                    );
-                  })}
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={isInView ? { scale: 1 } : { scale: 0 }}
-                    transition={{ delay: 1.2, duration: 0.6 }}
-                    className={`absolute left-1/2 top-1/2 -ml-2 -mt-2 w-4 h-4 rounded-full bg-primary/30 ${prefersReducedMotion ? '' : 'animate-pulse'}`}
-                  />
+              {/* Right: Small Core */}
+              <div className="w-1/2 relative bg-primary/5">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="relative w-24 h-24">
+                    {Array.from({ length: 12 }).map((_, i) => {
+                      const angle = (i / 12) * Math.PI * 2;
+                      const radius = 24;
+                      const x = Math.cos(angle) * radius;
+                      const y = Math.sin(angle) * radius;
+                      return (
+                        <motion.div
+                          key={`core-${i}`}
+                          initial={{ opacity: 0, x: 0, y: 0 }}
+                          animate={isInView ? { opacity: 1, x, y } : { opacity: 0, x: 0, y: 0 }}
+                          transition={{ delay: 0.6 + i * 0.05, duration: 0.8, type: "spring" }}
+                          className="absolute left-1/2 top-1/2 -ml-1.5 -mt-1.5 w-3 h-3 md:w-4 md:h-4 rounded-full bg-primary"
+                        />
+                      );
+                    })}
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={isInView ? { scale: 1 } : { scale: 0 }}
+                      transition={{ delay: 1.2, duration: 0.6 }}
+                      className={`absolute left-1/2 top-1/2 -ml-2 -mt-2 w-4 h-4 rounded-full bg-primary/30 ${prefersReducedMotion ? '' : 'animate-pulse'}`}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Comparison labels under visualization */}
+          <div className="mt-6 grid grid-cols-2 gap-0">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{ delay: 1.4, duration: 0.5 }}
+              className="px-1 md:px-3"
+            >
+              <div className="text-xs font-mono uppercase tracking-wider text-muted-foreground/70 mb-1">Обычный чат</div>
+              <div className="text-sm md:text-base text-muted-foreground leading-snug">1 000+ участников. Ты теряешься в потоке.</div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{ delay: 1.6, duration: 0.5 }}
+              className="px-1 md:px-3"
+            >
+              <div className="text-xs font-mono uppercase tracking-wider text-primary mb-1">Наше ядро</div>
+              <div className="text-sm md:text-base text-foreground leading-snug">40 человек. Ты на виду — и тебя замечают.</div>
+            </motion.div>
           </div>
         </div>
 
@@ -208,52 +271,57 @@ const WhySmall = () => {
 
 const Pain = () => {
   const prefersReducedMotion = useReducedMotion();
-  
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-15%" });
+
+  const thoughts = [
+    "Купил курс — забросил на третьей неделе.",
+    "Записал план на год — забыл к февралю.",
+    "Хочешь обсудить идею — а не с кем.",
+    "Знаешь, что надо делать — но всё откладываешь."
+  ];
+
   return (
-    <section className="py-32 md:py-48 px-6 md:px-12 max-w-4xl mx-auto">
-      <div className="space-y-16 md:space-y-24">
-        <FadeIn>
-          <p className="text-2xl md:text-4xl font-light text-muted-foreground/80 leading-relaxed">
-            Ты вроде что-то делаешь — но один.
-          </p>
-        </FadeIn>
-        
-        <FadeIn delay={0.2}>
-          <p className="text-3xl md:text-5xl font-light text-foreground leading-tight">
-            И поэтому быстро{" "}
-            <span className="relative inline-block">
-              сливаешься,
-              <motion.span 
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
-                className="absolute top-1/2 left-0 w-full h-[2px] bg-destructive origin-left"
-              />
-            </span>{" "}
-            <span className="relative inline-block">
-              откладываешь,
-              <motion.span 
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
-                className="absolute top-1/2 left-0 w-full h-[2px] bg-destructive origin-left"
-              />
-            </span>{" "}
-            <span className="relative inline-block">
-              теряешь темп.
-              <motion.span 
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ delay: 1.1, duration: 0.6, ease: "easeOut" }}
-                className="absolute top-1/2 left-0 w-full h-[2px] bg-destructive origin-left"
-              />
-            </span>
-          </p>
-        </FadeIn>
+    <section ref={sectionRef} className="py-32 md:py-48 px-6 md:px-12 max-w-4xl mx-auto">
+      <FadeIn>
+        <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-12">Знакомо?</h2>
+      </FadeIn>
+
+      {/* Stack of "thoughts" — each one fades in with a slight blur, like a passing reflection */}
+      <div className="space-y-6 md:space-y-7 mb-20 md:mb-28">
+        {thoughts.map((t, i) => (
+          <motion.p
+            key={i}
+            initial={{
+              opacity: 0,
+              x: prefersReducedMotion ? 0 : -16,
+              filter: prefersReducedMotion ? "none" : "blur(6px)",
+            }}
+            animate={isInView ? {
+              opacity: 1,
+              x: 0,
+              filter: "blur(0px)",
+            } : {}}
+            transition={{ delay: 0.2 + i * 0.35, duration: 0.7, ease: "easeOut" }}
+            className="text-xl md:text-2xl lg:text-3xl font-serif text-muted-foreground/80 leading-relaxed flex items-start gap-4"
+          >
+            <span className="font-mono text-xs text-primary/50 mt-3 shrink-0 w-6">0{i + 1}</span>
+            <span>«{t}»</span>
+          </motion.p>
+        ))}
       </div>
+
+      {/* The verdict — pops in with weight after all thoughts settled */}
+      <motion.div
+        initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 24 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ delay: 0.2 + thoughts.length * 0.35 + 0.3, duration: 0.8, ease: "easeOut" }}
+      >
+        <p className="text-3xl md:text-5xl lg:text-6xl font-serif text-foreground leading-tight">
+          Не потому что лень.{" "}
+          <span className="text-primary">А потому что один.</span>
+        </p>
+      </motion.div>
     </section>
   );
 };
@@ -403,12 +471,42 @@ const HowItWorks = () => {
 };
 
 const WhatsInside = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+
   const topics = [
-    { id: 'career', label: 'Карьера', desc: 'Расти в найме, пробивай потолок.' },
-    { id: 'business', label: 'Бизнес', desc: 'Строй своё, тестируй гипотезы.' },
-    { id: 'ai', label: 'Нейросети', desc: 'Ускоряй работу, делегируй рутину.' }
+    {
+      id: 'career',
+      label: 'Карьера',
+      desc: 'Расти в найме, пробивай потолок.',
+      items: [
+        "Резюме под рынок 2026",
+        "Переговоры о зарплате",
+        "Переход в новый стек / роль",
+        "Собесы: подготовка и разбор",
+      ],
+    },
+    {
+      id: 'business',
+      label: 'Бизнес',
+      desc: 'Строй своё, тестируй гипотезы.',
+      items: [
+        "Первый клиент за 30 дней",
+        "Гипотезы и быстрые тесты",
+        "Юнит-экономика на пальцах",
+        "Поиск со-основателя / команды",
+      ],
+    },
+    {
+      id: 'ai',
+      label: 'Нейросети',
+      desc: 'Ускоряй работу, делегируй рутину.',
+      items: [
+        "AI-ассистент в твоей работе",
+        "Автоматизация рутины",
+        "Промптинг под задачи",
+        "Связки GPT + n8n / no-code",
+      ],
+    },
   ];
 
   return (
@@ -417,33 +515,67 @@ const WhatsInside = () => {
         <FadeIn>
           <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-16 text-center md:text-left">Что внутри</h2>
         </FadeIn>
-        
-        <div className="flex flex-col md:flex-row gap-4 mb-12">
-          {topics.map((topic, i) => (
-            <motion.div
-              key={topic.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              onHoverStart={() => setHoveredIndex(i)}
-              onHoverEnd={() => setHoveredIndex(null)}
-              className={`flex-1 p-8 rounded-3xl border transition-all duration-500 cursor-default
-                ${hoveredIndex === i ? 'bg-primary text-primary-foreground border-primary scale-[1.02] shadow-xl' : 'bg-background border-border hover:border-primary/30'}
-                ${hoveredIndex !== null && hoveredIndex !== i ? 'opacity-50 scale-[0.98]' : 'opacity-100'}
-              `}
-            >
-              <div className={`text-xs font-mono mb-4 transition-colors duration-500 ${hoveredIndex === i ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>
-                {topic.id.toUpperCase()}
-              </div>
-              <h3 className="text-2xl font-serif mb-2">{topic.label}</h3>
-              <p className={`text-sm transition-colors duration-500 ${hoveredIndex === i ? 'text-primary-foreground/90' : 'text-muted-foreground'}`}>
-                {topic.desc}
-              </p>
-            </motion.div>
-          ))}
+
+        <div className="grid md:grid-cols-3 gap-4 mb-12">
+          {topics.map((topic, i) => {
+            const isActive = activeIndex === i;
+            return (
+              <motion.div
+                key={topic.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                onHoverStart={() => setActiveIndex(i)}
+                onClick={() => setActiveIndex(i)}
+                className={`relative p-8 rounded-3xl border cursor-pointer transition-all duration-500 self-start
+                  ${isActive
+                    ? 'bg-primary text-primary-foreground border-primary shadow-xl shadow-primary/10'
+                    : 'bg-background border-border hover:border-primary/30 hover:-translate-y-0.5'}
+                `}
+              >
+                <div className={`text-xs font-mono mb-4 transition-colors duration-500 ${isActive ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>
+                  {String(i + 1).padStart(2, "0")} · {topic.id.toUpperCase()}
+                </div>
+                <h3 className="text-2xl font-serif mb-2">{topic.label}</h3>
+                <p className={`text-sm transition-colors duration-500 ${isActive ? 'text-primary-foreground/90' : 'text-muted-foreground'}`}>
+                  {topic.desc}
+                </p>
+
+                <AnimatePresence initial={false}>
+                  {isActive && (
+                    <motion.div
+                      key="items"
+                      initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                      animate={{ opacity: 1, height: "auto", marginTop: 24 }}
+                      exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                      transition={{ duration: 0.45, ease: [0.21, 0.47, 0.32, 0.98] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="pt-5 border-t border-primary-foreground/20">
+                        <ul className="space-y-2.5">
+                          {topic.items.map((it, j) => (
+                            <motion.li
+                              key={it}
+                              initial={{ opacity: 0, x: -8 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.1 + j * 0.06, duration: 0.35 }}
+                              className="text-sm flex items-start gap-2.5 text-primary-foreground/90"
+                            >
+                              <span className="mt-2 w-1 h-1 rounded-full bg-primary-foreground/60 shrink-0" />
+                              <span>{it}</span>
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
         </div>
-        
+
         <FadeIn delay={0.4}>
           <div className="text-center mt-12">
             <p className="inline-block text-xl md:text-2xl font-light text-foreground border-b border-primary/20 pb-1">
@@ -461,6 +593,7 @@ const Foundation = () => {
     {
       title: "Buddy system",
       desc: "Связка 1-на-1 для еженедельного контроля прогресса.",
+      meta: "1 встреча в неделю · 30–45 минут",
       icon: (
         <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="11" cy="13" r="4" />
@@ -473,6 +606,7 @@ const Foundation = () => {
     {
       title: "Weekly созвоны",
       desc: "Синхронизация небольшими группами. Планы, победы, затыки.",
+      meta: "1 раз в неделю · группа до 8 человек",
       icon: (
         <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <rect x="4" y="8" width="18" height="16" rx="2" />
@@ -484,6 +618,7 @@ const Foundation = () => {
     {
       title: "Живое общение",
       desc: "Закрытый чат, где можно спросить что угодно и получить ответ.",
+      meta: "24/7 · все участники в одном чате",
       icon: (
         <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M5 10a3 3 0 013-3h12a3 3 0 013 3v8a3 3 0 01-3 3h-8l-5 4v-4a3 3 0 01-3-3z" />
@@ -517,12 +652,15 @@ const Foundation = () => {
               <div className="mb-5 inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/10 text-primary transition-all duration-500 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105">
                 {pillar.icon}
               </div>
-              <h3 className="text-2xl md:text-3xl font-serif text-foreground mb-4 group-hover:text-primary transition-colors duration-300">
+              <h3 className="text-2xl md:text-3xl font-serif text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
                 {pillar.title}
               </h3>
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed mb-4">
                 {pillar.desc}
               </p>
+              <div className="text-xs font-mono uppercase tracking-wider text-primary/70">
+                {pillar.meta}
+              </div>
             </div>
           </FadeIn>
         ))}
@@ -532,41 +670,105 @@ const Foundation = () => {
 };
 
 const WhoItsFor = () => {
-  const items = [
-    "Тем, кто не хочет стоять на месте.",
-    "Тем, кто устал пытаться в одиночку.",
-    "Тем, кто хочет двигаться быстрее."
+  const yes = [
+    "Ты не хочешь стоять на месте.",
+    "Ты устал пытаться в одиночку.",
+    "Ты готов двигаться быстрее — с другими.",
+  ];
+  const no = [
+    "Ищешь готовые ответы, а не работу с собой.",
+    "Тебе нужен ментор сверху, а не равные рядом.",
+    "Не готов отдавать 1–2 часа в неделю.",
   ];
 
   return (
     <section className="py-32 px-6 md:px-12 bg-foreground text-background">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <FadeIn>
           <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-16">Для кого</h2>
         </FadeIn>
-        
-        <div className="space-y-12">
-          {items.map((item, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+
+        <div className="grid md:grid-cols-2 gap-12 md:gap-16">
+          {/* YES column */}
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.3, duration: 0.8 }}
-              className="flex items-start gap-6"
+              transition={{ duration: 0.6 }}
+              className="text-xs font-mono uppercase tracking-widest text-primary mb-8"
             >
-              <motion.div 
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4 + i * 0.3, type: "spring" }}
-                className="mt-2 w-2 h-2 rounded-full bg-primary flex-shrink-0"
-              />
-              <p className="text-3xl md:text-5xl font-serif font-light leading-tight">
-                {item}
-              </p>
+              Тебе сюда, если
             </motion.div>
-          ))}
+            <ul className="space-y-7">
+              {yes.map((item, i) => (
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: -16 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.15 + i * 0.18, duration: 0.6 }}
+                  className="flex items-start gap-4"
+                >
+                  <motion.span
+                    initial={{ scale: 0, rotate: -90 }}
+                    whileInView={{ scale: 1, rotate: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 + i * 0.18, type: "spring", stiffness: 220, damping: 16 }}
+                    className="mt-1.5 inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary/15 text-primary shrink-0"
+                  >
+                    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </motion.span>
+                  <p className="text-2xl md:text-3xl font-serif font-light leading-snug">
+                    {item}
+                  </p>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
+
+          {/* NO column */}
+          <div className="md:border-l md:border-background/15 md:pl-12">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="text-xs font-mono uppercase tracking-widest text-background/50 mb-8"
+            >
+              Тебе сюда не надо, если
+            </motion.div>
+            <ul className="space-y-7">
+              {no.map((item, i) => (
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: -16 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.25 + i * 0.18, duration: 0.6 }}
+                  className="flex items-start gap-4"
+                >
+                  <motion.span
+                    initial={{ scale: 0, rotate: 90 }}
+                    whileInView={{ scale: 1, rotate: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4 + i * 0.18, type: "spring", stiffness: 220, damping: 16 }}
+                    className="mt-1.5 inline-flex items-center justify-center w-6 h-6 rounded-full bg-background/10 text-background/60 shrink-0"
+                  >
+                    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                    </svg>
+                  </motion.span>
+                  <p className="text-xl md:text-2xl font-light leading-snug text-background/70">
+                    {item}
+                  </p>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -577,7 +779,7 @@ const EarlyAccess = () => {
   const cols = 8;
   const rows = 5;
   const total = cols * rows;
-  const baseFilled = 12;
+  const baseFilled = 4;
   const prefersReducedMotion = useReducedMotion();
   const [pulseIndex, setPulseIndex] = useState<number | null>(null);
 
@@ -698,6 +900,182 @@ const Pricing = () => {
             </div>
           </FadeIn>
         </div>
+
+        <FadeIn delay={0.4}>
+          <div className="mt-12 max-w-2xl mx-auto text-center">
+            <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+              В обе версии входит всё: buddy-связка, weekly-созвоны, чат и темы.
+              Оплата — через бота в Telegram после короткого знакомства. Если в первую неделю
+              чувствуешь, что не твоё, — возвращаем деньги без вопросов.
+            </p>
+          </div>
+        </FadeIn>
+      </div>
+    </section>
+  );
+};
+
+const Routine = () => {
+  const prefersReducedMotion = useReducedMotion();
+  const days = [
+    { d: "Пн", title: "Цели на неделю", desc: "Короткий чек-ин с buddy. Что сделаем за 7 дней.", active: true },
+    { d: "Вт", title: "Работа", desc: "Глубокая работа. Спрашивай в чате — отвечают равные.", active: false },
+    { d: "Ср", title: "Weekly-созвон", desc: "Группа до 8 человек. Планы, победы, затыки.", active: true },
+    { d: "Чт", title: "Работа", desc: "Прогресс по плану. Делишься промежуточным.", active: false },
+    { d: "Пт", title: "Итоги недели", desc: "Что сделал, что застряло. Закрепили — пошли дальше.", active: true },
+    { d: "Сб", title: "Пауза", desc: "Отдых. Чат живой — но без обязательств.", active: false },
+    { d: "Вс", title: "Подготовка", desc: "Лёгкая планёрка для себя. Готовимся к понедельнику.", active: false },
+  ];
+
+  return (
+    <section className="py-32 px-6 md:px-12 max-w-6xl mx-auto">
+      <FadeIn>
+        <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-4 text-center md:text-left">Ритм недели</h2>
+      </FadeIn>
+      <FadeIn delay={0.1}>
+        <p className="text-3xl md:text-5xl font-serif text-foreground leading-tight mb-12 md:mb-16 max-w-3xl">
+          Не курс, а <span className="text-primary">постоянная среда</span> — встроенная в твою неделю.
+        </p>
+      </FadeIn>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-4">
+        {days.map((day, i) => (
+          <motion.div
+            key={day.d}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ delay: i * 0.07, duration: 0.5, ease: "easeOut" }}
+            className={`relative p-5 rounded-2xl border transition-all duration-500 group min-h-[180px] flex flex-col
+              ${day.active
+                ? 'bg-primary/8 border-primary/40 hover:border-primary hover:bg-primary/12'
+                : 'bg-background border-border/60 hover:border-primary/20'}
+            `}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <span className={`text-xs font-mono uppercase tracking-widest ${day.active ? 'text-primary' : 'text-muted-foreground'}`}>
+                {day.d}
+              </span>
+              {day.active && (
+                <span className="relative flex h-1.5 w-1.5">
+                  {!prefersReducedMotion && (
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-primary/60 animate-ping" />
+                  )}
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
+                </span>
+              )}
+            </div>
+            <h3 className={`font-serif text-lg leading-tight mb-2 ${day.active ? 'text-foreground' : 'text-muted-foreground'}`}>
+              {day.title}
+            </h3>
+            <p className="text-xs text-muted-foreground leading-relaxed mt-auto">
+              {day.desc}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+
+      <FadeIn delay={0.5}>
+        <p className="mt-10 text-sm font-mono uppercase tracking-wider text-muted-foreground text-center md:text-left">
+          итого: ~ 1–2 часа в неделю · остальное — на твой ритм
+        </p>
+      </FadeIn>
+    </section>
+  );
+};
+
+const FAQ = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const items = [
+    {
+      q: "Сколько времени это займёт?",
+      a: "Минимум — 1 час в неделю на созвон. Плюс короткий чек-ин с buddy и переписка в чате. Всё гибко: участники — взрослые занятые люди, и формат под это заточен.",
+    },
+    {
+      q: "Что если я не из Москвы / другого часового пояса?",
+      a: "Всё проходит онлайн. Созвоны планируем под удобное окно для всех. Чат и buddy-формат вообще не привязаны ко времени.",
+    },
+    {
+      q: "Я не из IT. Подойдёт ли мне?",
+      a: "Да. Мы не про конкретную индустрию — мы про людей, которые двигают свою карьеру, бизнес или новые навыки. AI-инструменты сейчас работают для всех, а карьерные и бизнес-вопросы — универсальны.",
+    },
+    {
+      q: "Это очередной курс или мастермайнд?",
+      a: "Ни то, ни другое. Здесь нет лекций и нет «гуру». Это среда из 40 равных, где ты получаешь конкретного buddy, регулярную сверку и чат, в котором всегда есть кому ответить.",
+    },
+    {
+      q: "Что будет, когда наберётся 40 человек?",
+      a: "Набор закроется. Дальше — только лист ожидания и более жёсткий отбор. Цена для следующих наборов будет выше.",
+    },
+    {
+      q: "А если не зайдёт?",
+      a: "Если в первую неделю поймёшь, что не твоё — возвращаем деньги без вопросов. Никто никого не держит.",
+    },
+  ];
+
+  return (
+    <section className="py-32 px-6 md:px-12 bg-white/40 border-y border-border/40">
+      <div className="max-w-3xl mx-auto">
+        <FadeIn>
+          <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-4 text-center">FAQ</h2>
+        </FadeIn>
+        <FadeIn delay={0.1}>
+          <p className="text-3xl md:text-5xl font-serif text-foreground leading-tight mb-12 md:mb-16 text-center">
+            Что обычно спрашивают
+          </p>
+        </FadeIn>
+
+        <div className="divide-y divide-border/60 border-y border-border/60">
+          {items.map((item, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ delay: i * 0.05, duration: 0.5 }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenIndex(isOpen ? null : i)}
+                  className="w-full text-left py-6 md:py-7 flex items-start justify-between gap-6 group outline-none"
+                  aria-expanded={isOpen}
+                >
+                  <span className={`text-lg md:text-xl font-serif leading-snug transition-colors duration-300 ${isOpen ? 'text-primary' : 'text-foreground group-hover:text-primary'}`}>
+                    {item.q}
+                  </span>
+                  <motion.span
+                    animate={{ rotate: isOpen ? 45 : 0 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className={`mt-1 inline-flex items-center justify-center w-7 h-7 rounded-full border shrink-0 transition-colors duration-300 ${isOpen ? 'border-primary text-primary bg-primary/10' : 'border-border text-muted-foreground group-hover:border-primary/40 group-hover:text-primary'}`}
+                  >
+                    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                  </motion.span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
+                      className="overflow-hidden"
+                    >
+                      <p className="pb-7 pr-12 text-base md:text-lg text-muted-foreground leading-relaxed">
+                        {item.a}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
@@ -732,7 +1110,7 @@ const FinalCTA = () => {
         
         <FadeIn delay={0.4}>
           <p className="mt-8 text-sm font-mono text-muted-foreground uppercase tracking-widest">
-            осталось 28 из 40 мест
+            осталось 36 из 40 мест
           </p>
         </FadeIn>
       </div>
@@ -790,6 +1168,7 @@ export default function LandingPage() {
       <WhoItsFor />
       <WhatsInside />
       <Foundation />
+      <Routine />
       <HowItWorks />
       
       <div className="py-20 flex justify-center border-y border-border/40 bg-white/20">
@@ -800,6 +1179,7 @@ export default function LandingPage() {
       
       <EarlyAccess />
       <Pricing />
+      <FAQ />
       
       <div ref={finalCTARef}>
         <FinalCTA />
