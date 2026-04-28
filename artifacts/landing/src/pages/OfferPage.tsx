@@ -1,12 +1,11 @@
 import React from 'react';
-import { ArrowLeft } from 'lucide-react';
 
 export default function OfferPage() {
   return (
     <main className="min-h-screen bg-background text-foreground font-sans">
       <div className="max-w-3xl mx-auto px-5 md:px-12 py-16 md:py-24">
         <a href="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-12">
-          <ArrowLeft className="w-4 h-4" />
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
           Вернуться на главную
         </a>
 
