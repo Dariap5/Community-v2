@@ -161,7 +161,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 0.8 }}
-          className="text-[15px] md:text-2xl text-muted-foreground max-w-2xl leading-relaxed mb-6 md:mb-12 font-sans font-light"
+          className="text-[14px] sm:text-[15px] md:text-2xl text-muted-foreground max-w-2xl leading-relaxed mb-6 md:mb-12 font-sans font-light"
         >
           Хочешь расти быстрее и не в одиночку — это место, где ты будешь двигаться вместе с другими.
         </motion.p>
@@ -176,6 +176,24 @@ const Hero = () => {
           <p className="text-xs md:text-sm text-muted-foreground tracking-wide">
             <span className="text-foreground/80 font-medium">4 из 40 мест</span> заняты · набор закроется автоматически
           </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.55, duration: 0.7 }}
+          className="mt-5 grid gap-3 sm:hidden"
+        >
+          <div className="rounded-2xl border border-border/60 bg-background/85 px-4 py-3 shadow-sm backdrop-blur-sm">
+            <div className="text-[10px] font-mono uppercase tracking-[0.22em] text-muted-foreground">Осталось мест</div>
+            <div className="mt-1 text-2xl font-serif text-foreground leading-none">4 / 40</div>
+          </div>
+          <div className="rounded-2xl border border-primary/20 bg-primary/7 px-4 py-3 shadow-sm backdrop-blur-sm">
+            <div className="text-[10px] font-mono uppercase tracking-[0.22em] text-primary/80">Формат</div>
+            <div className="mt-1 text-sm leading-snug text-foreground">
+              buddy · weekly созвоны · закрытый чат
+            </div>
+          </div>
         </motion.div>
 
         {/* Three micro-markers — set context in 1 sec */}
@@ -203,7 +221,7 @@ const WhySmall = () => {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section ref={ref} className="py-20 md:py-32 px-5 md:px-12 bg-white/40 border-y border-border/40 overflow-hidden">
+    <section ref={ref} className="py-16 md:py-32 px-5 md:px-12 bg-white/40 border-y border-border/40 overflow-hidden">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
         <div className="order-2 lg:order-1 w-full">
           <div className="relative h-64 md:h-80 w-full flex items-center justify-center bg-background rounded-3xl border border-border/50 overflow-hidden">
@@ -306,7 +324,7 @@ const Pain = () => {
   ];
 
   return (
-    <section ref={sectionRef} className="py-20 md:py-40 px-5 md:px-12 max-w-4xl mx-auto">
+    <section ref={sectionRef} className="py-16 md:py-40 px-5 md:px-12 max-w-4xl mx-auto">
       <FadeIn>
         <h2 className="text-xs md:text-sm font-semibold tracking-widest text-primary uppercase mb-8 md:mb-12">Знакомо?</h2>
       </FadeIn>
@@ -362,7 +380,7 @@ const Reframe = () => {
   const y2 = useTransform(scrollYProgress, [0.4, 0.6], prefersReducedMotion ? [0, 0] : [20, 0]);
 
   return (
-    <section ref={ref} className="relative py-24 md:py-40 px-5 md:px-12 bg-background min-h-[55vh] md:min-h-[80vh] flex flex-col justify-center">
+    <section ref={ref} className="relative py-18 md:py-40 px-5 md:px-12 bg-background min-h-[55vh] md:min-h-[80vh] flex flex-col justify-center">
       <div className="max-w-4xl mx-auto text-center relative h-[200px] md:h-[300px] flex flex-col justify-center w-full">
         <motion.p
           style={{ opacity: opacity1 }}
@@ -894,7 +912,7 @@ const EarlyAccess = () => {
 
 const Pricing = () => {
   return (
-    <section className="py-20 md:py-32 px-5 md:px-12 bg-white/60 border-y border-border/40">
+    <section className="py-16 md:py-32 px-5 md:px-12 bg-white/60 border-y border-border/40">
       <div className="max-w-4xl mx-auto">
         <FadeIn>
           <h2 className="text-sm font-semibold tracking-widest text-primary uppercase mb-10 md:mb-16 text-center">Тарифы</h2>
@@ -902,27 +920,27 @@ const Pricing = () => {
         
         <div className="grid md:grid-cols-2 gap-8 items-stretch">
           <FadeIn delay={0.1} className="h-full">
-            <div className="h-full flex flex-col p-10 rounded-[2rem] border border-border bg-background transition-all duration-500 hover:border-primary/30 hover:shadow-lg">
+            <div className="h-full flex flex-col p-6 md:p-10 rounded-[1.75rem] border border-border bg-background transition-all duration-500 hover:border-primary/30 hover:shadow-lg">
               <div className="text-muted-foreground mb-6 font-medium">Ежемесячно</div>
-              <div className="text-4xl md:text-5xl font-serif text-foreground mb-2">2 800 ₽</div>
+              <div className="text-3xl md:text-5xl font-serif text-foreground mb-2">2 800 ₽</div>
               <div className="text-sm text-muted-foreground mb-8">/ месяц</div>
-              <div className="mt-auto pt-8 border-t border-border/50">
+              <div className="mt-auto pt-6 md:pt-8 border-t border-border/50">
                 <JoinButton variant="quiet" className="w-full" />
               </div>
             </div>
           </FadeIn>
           
           <FadeIn delay={0.2} className="h-full">
-            <div className="h-full flex flex-col p-10 rounded-[2rem] border border-primary bg-primary/5 relative transition-all duration-500 hover:shadow-xl hover:shadow-primary/10">
-              <div className="absolute top-0 right-8 -translate-y-1/2 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-widest py-1.5 px-4 rounded-full">
+            <div className="h-full flex flex-col p-6 md:p-10 rounded-[1.75rem] border border-primary bg-primary/5 relative transition-all duration-500 hover:shadow-xl hover:shadow-primary/10">
+              <div className="absolute top-0 right-4 md:right-8 -translate-y-1/2 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-widest py-1.5 px-4 rounded-full">
                 Рекомендуем
               </div>
               <div className="text-primary/80 mb-6 font-medium">На 3 месяца</div>
               <div className="flex flex-col mb-8">
-                <div className="text-4xl md:text-5xl font-serif text-foreground mb-2">7 500 ₽</div>
-                <div className="text-sm font-medium text-primary">≈ 2 500 ₽ / месяц</div>
+                <div className="text-3xl md:text-5xl font-serif text-foreground mb-2">6 000 ₽</div>
+                <div className="text-sm font-medium text-primary">≈ 2 000 ₽ / месяц</div>
               </div>
-              <div className="mt-auto pt-8 border-t border-primary/20">
+              <div className="mt-auto pt-6 md:pt-8 border-t border-primary/20">
                 <JoinButton className="w-full" />
               </div>
             </div>
@@ -930,7 +948,7 @@ const Pricing = () => {
         </div>
 
         <FadeIn delay={0.4}>
-          <div className="mt-12 max-w-2xl mx-auto text-center">
+          <div className="mt-10 md:mt-12 max-w-2xl mx-auto text-center">
             <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
               В обе версии входит всё: buddy-связка, weekly-созвоны, чат и темы.
               Оплата — через бота в Telegram после короткого знакомства. Если в первую неделю
@@ -1111,7 +1129,7 @@ const FAQ = () => {
 
 const FinalCTA = ({ floating }: { floating: boolean }) => {
   return (
-    <section className="relative py-24 md:py-48 px-5 md:px-12 min-h-[70vh] md:min-h-[80vh] flex flex-col items-center justify-center text-center overflow-hidden">
+    <section className="relative py-18 md:py-48 px-5 md:px-12 min-h-[64vh] md:min-h-[80vh] flex flex-col items-center justify-center text-center overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 bg-radial-gradient from-primary/10 to-transparent opacity-50" />
 
@@ -1191,7 +1209,7 @@ export default function LandingPage() {
       <Routine />
       <HowItWorks />
       
-      <div className="py-20 flex justify-center border-y border-border/40 bg-white/20">
+      <div className="py-16 flex justify-center border-y border-border/40 bg-white/20">
         <FadeIn>
           <JoinButton variant="quiet" />
         </FadeIn>
@@ -1205,7 +1223,7 @@ export default function LandingPage() {
         <FinalCTA floating={showFixedCTA} />
       </div>
 
-      <footer className="py-12 md:py-16 px-5 md:px-12 border-t border-border/30 bg-background/50 backdrop-blur-sm">
+      <footer className="py-10 md:py-16 px-5 md:px-12 border-t border-border/30 bg-background/50 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div>
